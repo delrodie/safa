@@ -22,6 +22,16 @@ header{
                 font-size: 1.2rem;
                 font-weight: bold;
                 text-transform: uppercase;
+                background: var(--couleur-principale);
+                color: white;
+                padding: 2px 10px;
+            }
+
+            &:hover{
+                span{
+                    background: #fff;
+                    color: var(--couleur-principale);
+                }
             }
         }
     }
@@ -39,6 +49,12 @@ main{
    .card{
     .card-body{
         padding: 0 10px;
+
+        &.famille{
+            small{
+                float: right;
+            }
+        }
     }
     .card-footer{
         span.numero{

@@ -18,6 +18,13 @@ header nav a span {
   font-size: 1.2rem;
   font-weight: bold;
   text-transform: uppercase;
+  background: var(--couleur-principale);
+  color: white;
+  padding: 2px 10px;
+}
+header nav a:hover span {
+  background: #fff;
+  color: var(--couleur-principale);
 }
 
 main a {
@@ -29,6 +36,9 @@ main a:hover {
 }
 main .card .card-body {
   padding: 0 10px;
+}
+main .card .card-body.famille small {
+  float: right;
 }
 main .card .card-footer span.numero {
   float: left;
