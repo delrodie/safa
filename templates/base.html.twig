@@ -2,18 +2,52 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Famille{% endblock %}</title>
+        <link rel="icon" href="">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            <link rel="stylesheet" href="{{ absolute_url(asset('assets/css/app.css')) }}">
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        <div class="container">
+        <header>
+            <nav class="navbar">
+                <div class="container-fluid" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
+                    <a class="navbar-brand" href="#">
+                        <img src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        <span class="h1">Projet</span>
+                    </a>
+                    <form class="d-flex recherche" role="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" list="listeFamille" placeholder="Rechercher la famille" aria-label="Rechercher la famille" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                        <datalist id="listeFamille">
+                            <option value="Famille 1"></option>
+                            <option value="koffi 2"></option>
+                            <option value="Famille 3"></option>
+                            <option value="Famille 4"></option>
+                            <option value="Famille 5"></option>
+                            <option value="Famille 6"></option>
+                        </datalist>
+                    </form>
+                </div>
+            </nav>
+        </header>
+
+            {% block body %}{% endblock %}
+    </div>
+
+        {% block javascripts %}
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            <script>
+                AOS.init();
+            </script>
+        {% endblock %}
     </body>
 </html>
