@@ -5,67 +5,34 @@
 {% block body %}
     <main id="famille" class="mt-5">
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col" data-aos="zoom-in" data-aos-duration="2000" data-aos-easing="ease-in-sine">
-                <div class="card h-100">
-                    <a href="#">
-                        <figure>
-                            <img src="https://picsum.photos/id/129/200/150" class="card-img-top" alt="...">
-                        </figure>
+            {% for famille in familles %}
+                <div class="col" data-aos="zoom-in" data-aos-duration="2000" data-aos-easing="ease-in-sine">
+                    <div class="card h-100">
+                        <a href="#">
+                            <figure>
+                                {% if famille.media %}
+                                    <img src="{{ absolute_url(asset('upload/famille/' ~ famille.media)) }}" class="card-img-top" alt="{{ famille.nom }}">
+                                {% else %}
+                                    <img src="{{ absolute_url(asset('assets/img/image.jpg')) }}" alt="card-img-top">
+                                {% endif %}
+                            </figure>
 
-                        <div class="card-body famille">
-                            <small class="text-muted"><i class="fa-solid fa-location-dot"></i> Abobo</small>
-                            <h5 class="card-title"><i class="fa-solid fa-users"></i> Famille Georges</h5>
+                            <div class="card-body famille">
+                                <small class="text-muted"><i class="fa-solid fa-location-dot"></i> {{ famille.commune.nom }}</small>
+                                <h5 class="card-title"><i class="fa-solid fa-users"></i> {{ famille.nom }}</h5>
+                            </div>
+                        </a>
+
+                        <div class="card-footer">
+                            <small class="">
+                                <span class="numero">Code: <span>{{ famille.code }}</span> </span>
+                                <span class="vote"><i class="fa-solid fa-box-archive"></i> <span>75</span>/100</span>
+                            </small>
                         </div>
-                    </a>
-
-                    <div class="card-footer">
-                        <small class="">
-                            <span class="numero">N°: <span>125</span> </span>
-                            <span class="vote"><i class="fa-solid fa-box-archive"></i> <span>75</span>/100</span>
-                        </small>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <a href="telephone.html">
-                        <figure>
-                            <img src="https://picsum.photos/id/120/200/150" class="card-img-top" alt="...">
-                        </figure>
+            {% endfor %}
 
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="fa-solid fa-users"></i> Famille Georges</h5>
-                        </div>
-                    </a>
-
-                    <div class="card-footer">
-                        <small class="">
-                            <span class="numero">N°: <span>125</span> </span>
-                            <span class="vote"><i class="fa-solid fa-box-archive"></i> <span>75</span>/100</span>
-                        </small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <a href="vote.html">
-                        <figure>
-                            <img src="https://picsum.photos/id/109/200/150" class="card-img-top" alt="...">
-                        </figure>
-
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="fa-solid fa-users"></i> Famille Georges</h5>
-                        </div>
-                    </a>
-
-                    <div class="card-footer">
-                        <small class="">
-                            <span class="numero">N°: <span>125</span> </span>
-                            <span class="vote"><i class="fa-solid fa-box-archive"></i> <span>75</span>/100</span>
-                        </small>
-                    </div>
-                </div>
-            </div>
         </div>
         <!-- A supprimer -->
         <div class="row mt-5 mb-3">
