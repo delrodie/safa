@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ConcoursRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,14 @@ class Concours
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
+
+    #[ORM\OneToMany(mappedBy: 'concours', targetEntity: Famille::class)]
+    private Collection $familles;
+
+    public function __construct()
+    {
+        $this->familles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +100,36 @@ class Concours
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Famille>
+     */
+    public function getFamilles(): Collection
+    {
+        return $this->familles;
+    }
+
+    public function addFamille(Famille $famille): self
+    {
+        if (!$this->familles->contains($famille)) {
+            $this->familles->add($famille);
+            $famille->setConcours($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamille(Famille $famille): self
+    {
+        if ($this->familles->removeElement($famille)) {
+            // set the owning side to null (unless already changed)
+            if ($famille->getConcours() === $this) {
+                $famille->setConcours(null);
+            }
+        }
 
         return $this;
     }

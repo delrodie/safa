@@ -39,6 +39,20 @@ class ConcoursRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Liste des concours actifs
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findListActif()
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.fin <= :date')
+            ->orderBy('c.fin', 'ASC')
+            ->setParameter('date', date('Y-m-d'))
+            ;
+    }
+
 //    /**
 //     * @return Concours[] Returns an array of Concours objects
 //     */

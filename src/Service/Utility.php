@@ -3,15 +3,18 @@
 namespace App\Service;
 
 use App\Repository\ConcoursRepository;
+use App\Repository\FamilleRepository;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Utility
 {
     private ConcoursRepository $concoursRepository;
+    private FamilleRepository $familleRepository;
 
-    public function __construct(ConcoursRepository $concoursRepository)
+    public function __construct(ConcoursRepository $concoursRepository, FamilleRepository $familleRepository)
     {
         $this->concoursRepository = $concoursRepository;
+        $this->familleRepository = $familleRepository;
     }
 
     /**
@@ -40,5 +43,27 @@ class Utility
         $entity->setCode($reference);
 
         return $entity;
+    }
+
+    /**
+     * @param $entity
+     * @return mixed
+     */
+    public function codeFamille($entity): mixed
+    {
+        $verif = $this->familleRepository->findOneBy([],['id'=>'DESC']);
+        if (!$verif) $id = 1;
+        else $id = (int)$verif->getId() + 1;
+
+        if (10 > $id) $code = '0'.$id;
+        else $code = $id;
+
+        // code du concours
+        $concours = $entity->getConcours()->getCode();
+
+        $entity->setCode($concours.''.$code);//dd($entity);
+
+        return $entity;
+
     }
 }
