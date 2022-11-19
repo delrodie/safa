@@ -43,6 +43,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
+     * @return float|int|mixed|string
+     */
+    public function findWithout(): mixed
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.email <> :email')
+            ->setParameter('email', "delrodieamoikon@gmail.com")
+            ->getQuery()->getResult()
+            ;
+    }
+
+    /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
