@@ -2,19 +2,23 @@
 
 namespace App\Service;
 
+use App\Entity\Vote;
 use App\Repository\ConcoursRepository;
 use App\Repository\FamilleRepository;
+use App\Repository\VoteRepository;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Utility
 {
     private ConcoursRepository $concoursRepository;
     private FamilleRepository $familleRepository;
+    private VoteRepository $voteRepository;
 
-    public function __construct(ConcoursRepository $concoursRepository, FamilleRepository $familleRepository)
+    public function __construct(ConcoursRepository $concoursRepository, FamilleRepository $familleRepository, VoteRepository $voteRepository)
     {
         $this->concoursRepository = $concoursRepository;
         $this->familleRepository = $familleRepository;
+        $this->voteRepository = $voteRepository;
     }
 
     /**
@@ -67,8 +71,41 @@ class Utility
 
     }
 
-    public function vote($famille, $telephone)
+    /**
+     * @param $famille
+     * @param $telephone
+     * @return bool
+     */
+    public function vote($famille, $telephone): bool
     {
-        dd($telephone);
+        $concours =  $this->concoursRepository->findOneBy(['id'=>$famille->getConcours()]);
+        $verif = $this->voteRepository->findOneBy(['concours' => $concours->getId(), 'telephone'=>$telephone]);
+        if ($verif) return false;
+
+        // Enregistrement
+        $vote = new Vote();
+        $vote->setTelephone($telephone);
+        $vote->setFamille($famille);
+        $vote->setConcours($concours);
+
+        $this->voteRepository->save($vote, true);
+
+        return true;
+    }
+
+    /**
+     * verification de vote du telephone a ce concours
+     * 
+     * @param $famille
+     * @param $telephone
+     * @return bool
+     */
+    public function verificationVote($famille, $telephone): bool
+    {
+        $concours =  $this->concoursRepository->findOneBy(['id'=>$famille->getConcours()]);
+        $verif = $this->voteRepository->findOneBy(['concours' => $concours->getId(), 'telephone'=>$telephone]);
+        if ($verif) return true;
+        else return false;
+
     }
 }

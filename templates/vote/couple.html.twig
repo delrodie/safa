@@ -8,10 +8,14 @@
             <div class="col-12 col-md-8">
                 <div class="row">
                     <div class="col-12">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="fa-solid fa-triangle-exclamation"></i> <strong>Désolé!</strong> Vous ne pouvez plus voter. Votre candiat occupe la position : <strong>2</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                        {% for label, messages in app.flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="row">
@@ -33,7 +37,12 @@
                             <div class="d-grid gap-2">
                                 <input type="hidden" name="_couple" value="{{ famille.slug }}">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                                <button class="btn btn-primary btn-lg" type="submit"><i class="fa-solid fa-heart"></i> Je vote</button>
+                                {% if affichage_bouton %}
+                                    <button class="btn btn-primary btn-lg" type="submit"><i class="fa-solid fa-heart"></i> Je vote</button>
+                                {% else %}
+                                    <a href="{{ path('app_home') }}" class="btn btn-outline-danger btn-lg" disabled><i class="fa fa-reply"></i> Retour à la liste. </a>
+                                {% endif %}
+
                             </div>
 
                         </form>

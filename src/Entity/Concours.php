@@ -34,9 +34,13 @@ class Concours
     #[ORM\OneToMany(mappedBy: 'concours', targetEntity: Famille::class)]
     private Collection $familles;
 
+    #[ORM\OneToMany(mappedBy: 'concours', targetEntity: Vote::class)]
+    private Collection $votes;
+
     public function __construct()
     {
         $this->familles = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,6 +132,36 @@ class Concours
             // set the owning side to null (unless already changed)
             if ($famille->getConcours() === $this) {
                 $famille->setConcours(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vote>
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setConcours($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->votes->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getConcours() === $this) {
+                $vote->setConcours(null);
             }
         }
 

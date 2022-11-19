@@ -31,8 +31,10 @@ class VoteController extends AbstractController
         else
             $famille = $this->familleRepository->findOneBy(['slug' => $session->get('famille')]);
 
-        if ($request->request->get('_telephone') and $request->request->get('_csrf_token')){
-            $session->set('telephone', $request->request->get('_telephone'));
+        $telephone = $request->request->get('_telephone') ;
+        if ($telephone and $request->request->get('_csrf_token')){
+                $session->set('telephone', $telephone);
+
             return $this->redirectToRoute('app_vote_show', ['slug' => $famille->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
@@ -42,7 +44,7 @@ class VoteController extends AbstractController
     }
 
     #[Route('/{slug}', name:'app_vote_show', methods:['GET','POST'])]
-    public function couple(Request $request, Famille $famille): Response
+    public function vote(Request $request, Famille $famille): Response
     {
         $session = $request->getSession();
         // Affectation de la famille à la session
@@ -50,14 +52,28 @@ class VoteController extends AbstractController
 
         if (!$session->get('telephone'))
             return $this->redirectToRoute('app_vote', [], Response::HTTP_SEE_OTHER);
-        //else
-        //dd($request);
+
+        //Affichage du bouton de vote
+        if ($this->utility->verificationVote($famille, $session->get('telephone'))) {
+            $this->addFlash('danger', "Désolé vous avez déjà voté à ce concours!");
+            $affichageBtn = false;
+            $session->clear();
+        }else $affichageBtn = true;
+
+        // Traitement du formulaire
         if ($request->request->get('_couple') and $request->request->get('_csrf_token')){
-            $this->utility->vote($famille, $session->get('telephone'));
+            $vote = $this->utility->vote($famille, $session->get('telephone'));
+            if ($vote) $this->addFlash('success', "Votre vote a été effectué avec succès!");
+            else $this->addFlash('danger', 'Désolé vous avez déjà voté');
+
+            $affichageBtn = false;
+
+            $session->clear();
         }
 
         return $this->render('vote/couple.html.twig',[
-            'famille' => $famille
+            'famille' => $famille,
+            'affichage_bouton' => $affichageBtn
         ]);
     }
 }
