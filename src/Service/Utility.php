@@ -147,6 +147,7 @@ class Utility
         }
         arsort($lists); //dd($lists[0]);
         $rang=[]; $j=0;
+        if (!$totalVote) $totalVote=1;
         foreach ($lists as $key => $value){
             $couple = $this->familleRepository->findOneBy(['id'=> (int)$key]);
             $vote = count($couple->getVotes());
