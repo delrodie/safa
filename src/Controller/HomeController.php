@@ -11,7 +11,7 @@ class HomeController extends AbstractController
 {
     private FamilleRepository $familleRepository;
 
-    public function __construct(FamilleRepository $familleRepository)
+    public function __construct(FamilleRepository $familleRepository, )
     {
         $this->familleRepository = $familleRepository;
     }

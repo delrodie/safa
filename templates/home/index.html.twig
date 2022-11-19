@@ -8,7 +8,7 @@
             {% for famille in familles %}
                 <div class="col" data-aos="zoom-in" data-aos-duration="2000" data-aos-easing="ease-in-sine">
                     <div class="card h-100">
-                        <a href="#">
+                        <a href="{{ path('app_vote_show', {'slug': famille.slug}) }}">
                             <figure>
                                 {% if famille.media %}
                                     <img src="{{ absolute_url(asset('upload/famille/' ~ famille.media)) }}" class="card-img-top" alt="{{ famille.nom }}">
@@ -20,6 +20,7 @@
                             <div class="card-body famille">
                                 <small class="text-muted"><i class="fa-solid fa-location-dot"></i> {{ famille.commune.nom }}</small>
                                 <h5 class="card-title"><i class="fa-solid fa-users"></i> {{ famille.nom }}</h5>
+                                <p></p>
                             </div>
                         </a>
 

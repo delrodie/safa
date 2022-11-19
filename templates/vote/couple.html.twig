@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ famille.concours.nom }}: {{ famille.nom }}{% endblock %}
+
+{% block body %}
+    <main id="vote">
+        <div class="row mt-5">
+            <div class="col-12 col-md-8">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation"></i> <strong>Désolé!</strong> Vous ne pouvez plus voter. Votre candiat occupe la position : <strong>2</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <figure>
+                            {% if famille.media %}
+                                <img src="{{ absolute_url(asset('upload/famille/' ~ famille.media)) }}" class="card-img-top" alt="{{ famille.nom }}">
+                            {% else %}
+                                <img src="{{ absolute_url(asset('assets/img/image.jpg')) }}" alt="card-img-top">
+                            {% endif %}
+                        </figure>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <h3>{{ famille.nom }}</h3>
+                        <h5>Candidate N°: <span>{{ famille.code }}</span></h5>
+                        <small class="text-muted"><i class="fa-solid fa-location-dot"></i> {{ famille.commune.nom }}</small>
+                        <p class="position">Position dans le classement: <span>3</span></p>
+                        <form class="mt-5" method="post">
+                            <div class="d-grid gap-2">
+                                <input type="hidden" name="_couple" value="{{ famille.slug }}">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <button class="btn btn-primary btn-lg" type="submit"><i class="fa-solid fa-heart"></i> Je vote</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 classement">
+                <div class="row">
+                    <div class="col-12"><h2>Classement</h2></div>
+                    <div class="col-12 famille">
+                        <div class="row">
+                            <div class="col-4">
+                                <figure>
+                                    <img src="https://picsum.photos/id/98/400/300" alt="" class="img-fluid">
+                                </figure>
+                            </div>
+                            <div class="col-8">
+                                <h4>Famille G</h4>
+                                <div class="vote">Voix: <span>25642</span> (<span class="pourcentage">40%</span>) </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 famille">
+                        <div class="row">
+                            <div class="col-4">
+                                <figure>
+                                    <img src="https://picsum.photos/id/98/400/300" alt="" class="img-fluid">
+                                </figure>
+                            </div>
+                            <div class="col-8">
+                                <h4>Famille G</h4>
+                                <div class="vote">Voix: <span>25642</span> (<span class="pourcentage">40%</span>) </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 famille">
+                        <div class="row">
+                            <div class="col-4">
+                                <figure>
+                                    <img src="https://picsum.photos/id/98/400/300" alt="" class="img-fluid">
+                                </figure>
+                            </div>
+                            <div class="col-8">
+                                <h4>Famille G</h4>
+                                <div class="vote">Voix: <span>25642</span> (<span class="pourcentage">40%</span>) </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 famille">
+                        <div class="row">
+                            <div class="col-4">
+                                <figure>
+                                    <img src="https://picsum.photos/id/98/400/300" alt="" class="img-fluid">
+                                </figure>
+                            </div>
+                            <div class="col-8">
+                                <h4>Famille G</h4>
+                                <div class="vote">Voix: <span>25642</span> (<span class="pourcentage">40%</span>) </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+

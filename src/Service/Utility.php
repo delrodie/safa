@@ -66,4 +66,9 @@ class Utility
         return $entity;
 
     }
+
+    public function vote($famille, $telephone)
+    {
+        dd($telephone);
+    }
 }
