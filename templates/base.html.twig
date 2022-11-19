@@ -4,7 +4,21 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Famille{% endblock %}</title>
+        <title>{% block title %}SAFA -Salon International de la Famille{% endblock %}</title>
+
+        <meta name="keywords" content="SAFA, salon, famille, couple"  />
+        <meta name="description" content="Salon International de la Famille" />
+        <meta name="revisit" content="7 days" />
+        <meta name="revisit-after" content="7 days">
+        <meta name="Author" content="SAFA, Delrodie AMOIKON">
+        <meta name="Copyright" content="www.safaci.org">
+        <meta name="Content-Language" content="FR">
+        <meta name="distribution" content="global" />
+        <meta name="Audience" content="All" />
+        <meta name="Robots" content="full">
+
+        {% block meta %}{% endblock %}
+
         <link rel="icon" href="">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}

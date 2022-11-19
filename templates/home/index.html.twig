@@ -43,3 +43,20 @@
         </div>
     </main>
 {% endblock %}
+{% block meta %}
+    <link rel="canonical" href="{{ absolute_url(path('app_home')) }}" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:type" content="Item" />
+    <meta property="og:title" content="SAFA - Salon Internationale d la Famille" />
+    <meta property="og:description" content="Salon International de la famille " />
+    <meta property="og:url" content="{{ absolute_url(path('app_home')) }}" />
+    <meta property="og:site_name" content="SAFA" />
+    <meta property="article:section" content="Item" />
+    <meta property="article:published_time" content="2022-11-19T15:25:59+00:00" />
+    <meta property="og:image" content="{{ absolute_url(asset('assets/img/bg.png')) }}" />
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:description" content="Salon International de la Famille"/>
+    <meta name="twitter:title" content="SAFA - Salon International de la Famille"/>
+    <meta name="twitter:domain" content="SAFA"/>
+    <meta name="twitter:image:src" content="{{ absolute_url(asset('assets/img/bg.png')) }}"/>
+{% endblock %}
