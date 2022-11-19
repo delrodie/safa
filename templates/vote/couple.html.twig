@@ -55,6 +55,8 @@
                     {% for rang in rangs %}
                         <div class="col-12 famille">
                             <div class="row">
+                                <div class="col-2">
+                                </div>
                                 <div class="col-3">
                                     <figure>
                                         {% if rang.media %}
@@ -64,8 +66,15 @@
                                         {% endif %}
                                     </figure>
                                 </div>
-                                <div class="col-9">
-                                    <h4>{{ rang.nom }}</h4>
+                                <div class="col-7">
+                                    <h4> <span style="color: blue">
+                                        {% if loop.first %}
+                                            {{ loop.index }}<sup>er</sup>
+                                        {% else %}
+                                            {{ loop.index }}<sup>e</sup>
+                                        {% endif %}</span> - &nbsp;
+                                        {{ rang.nom }}
+                                    </h4>
                                     <div class="vote">Voix: <span class="point">{{ rang.vote }}</span> (<span class="pourcentage">{{ rang.pourcentage }}%</span>) </div>
                                 </div>
                             </div>

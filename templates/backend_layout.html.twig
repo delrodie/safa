@@ -16,7 +16,7 @@
         <div class="container">
             <nav class="navbar  sticky-to navbar-expand-lg">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="{{ path('app_dashboard') }}">PROJET</a>
+                    <a class="navbar-brand" href="{{ path('app_dashboard') }}">SAFA</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -78,28 +78,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
-        <script>
-            const ctx = document.getElementById('myChart');
 
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Faille A', 'Famille B', 'Famille C', 'Famille D', 'Famille E', 'Famille F', 'Famille G', 'Famille H', 'Famille I', 'Famille J'],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 26, 8, 6, 9, 10],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        </script>
         <script>
             $(document).ready(function() {
                 $('#listeFamille').DataTable( {
