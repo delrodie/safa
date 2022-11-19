@@ -108,10 +108,15 @@ main#vote .classement .famille:hover {
   background: #e4e3e3;
 }
 main#vote .classement .famille h4 {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 main#vote .classement .famille .vote span {
   font-weight: bold;
+}
+main#vote .classement .famille .vote span.point {
+  padding-left: 10px;
+  padding-right: 25px;
+  color: red;
 }
 main#vote .classement .famille .vote span.pourcentage {
   color: var(--couleur-principale);

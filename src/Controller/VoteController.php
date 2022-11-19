@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Famille;
 use App\Repository\FamilleRepository;
+use App\Repository\VoteRepository;
 use App\Service\Utility;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +16,13 @@ class VoteController extends AbstractController
 {
     private FamilleRepository $familleRepository;
     private Utility $utility;
+    private VoteRepository $voteRepository;
 
-    public function __construct(FamilleRepository $familleRepository, Utility $utility)
+    public function __construct(FamilleRepository $familleRepository, Utility $utility, VoteRepository $voteRepository)
     {
         $this->familleRepository = $familleRepository;
         $this->utility = $utility;
+        $this->voteRepository = $voteRepository;
     }
 
     #[Route('/', name: 'app_vote', methods: ['GET','POST'])]
@@ -73,7 +76,8 @@ class VoteController extends AbstractController
 
         return $this->render('vote/couple.html.twig',[
             'famille' => $famille,
-            'affichage_bouton' => $affichageBtn
+            'affichage_bouton' => $affichageBtn,
+            'rangs' => $this->utility->classement()
         ]);
     }
 }

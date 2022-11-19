@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Famille;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,40 @@ class FamilleRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * Liste des familles concercnées par le concours encours
+     * @return float|int|mixed|string
+     */
+    public function findByConcoursActif(): mixed
+    {
+        return $this->createQueryBuilder('f')
+            ->addSelect('cu')
+            ->addSelect('co')
+            ->leftJoin('f.commune', 'co')
+            ->leftJoin('f.concours', 'cu')
+            ->where('cu.fin >= :date')
+            ->orderBy('co.nom', "ASC")
+            ->setParameter('date', date('Y-m-d'))
+            ->getQuery()->getResult()
+            ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOne($id)
+    {
+        return $this->createQueryBuilder('f')
+            ->addSelect('cu')
+            ->addSelect('co')
+            ->leftJoin('f.commune', 'co')
+            ->leftJoin('f.concours', 'cu')
+            ->where('f.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()->getOneOrNullResult()
+            ;
     }
 
 //    /**

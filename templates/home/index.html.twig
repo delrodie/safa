@@ -18,7 +18,7 @@
                             </figure>
 
                             <div class="card-body famille">
-                                <small class="text-muted"><i class="fa-solid fa-location-dot"></i> {{ famille.commune.nom }}</small>
+                                <small class="text-muted"><i class="fa-solid fa-location-dot"></i> {{ famille.commune_nom }}</small>
                                 <h5 class="card-title"><i class="fa-solid fa-users"></i> {{ famille.nom }}</h5>
                                 <p></p>
                             </div>
@@ -27,7 +27,7 @@
                         <div class="card-footer">
                             <small class="">
                                 <span class="numero">Code: <span>{{ famille.code }}</span> </span>
-                                <span class="vote"><i class="fa-solid fa-box-archive"></i> <span>75</span>/100</span>
+                                <span class="vote"><i class="fa-solid fa-box-archive"></i> <span>{{ famille.vote }}</span>/{{ famille.vote_total }}</span>
                             </small>
                         </div>
                     </div>

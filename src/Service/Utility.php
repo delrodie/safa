@@ -95,7 +95,7 @@ class Utility
 
     /**
      * verification de vote du telephone a ce concours
-     * 
+     *
      * @param $famille
      * @param $telephone
      * @return bool
@@ -106,6 +106,60 @@ class Utility
         $verif = $this->voteRepository->findOneBy(['concours' => $concours->getId(), 'telephone'=>$telephone]);
         if ($verif) return true;
         else return false;
+    }
 
+    public function listFamilleByConcoursActif()
+    {
+        $familles = $this->familleRepository->findByConcoursActif(); //dd($familles);
+        $list=[]; $i=0;
+
+        foreach ($familles as $famille){
+            $list[$i++]=[
+                'id' => $famille->getId(),
+                'nom' => $famille->getNom(),
+                'code' => $famille->getCode(),
+                'media' => $famille->getMedia(),
+                'slug' => $famille->getSlug(),
+                'commune_id' => $famille->getCommune()->getId(),
+                'commune_nom' => $famille->getCommune()->getNom(),
+                'commune_slug' => $famille->getCommune()->getSlug(),
+                'concours_id' => $famille->getConcours()->getId(),
+                'concours_nom' => $famille->getConcours()->getNom(),
+                'concours_code' => $famille->getConcours()->getCode(),
+                'concours_debut' => $famille->getConcours()->getDebut(),
+                'concours_fin' => $famille->getConcours()->getFin(),
+                'concours_slug' => $famille->getConcours()->getSlug(),
+                'vote' => count($famille->getVotes()),
+                'vote_total' => count($famille->getConcours()->getVotes())
+            ];
+        }
+
+        return $list;
+    }
+
+    public function classement()
+    {
+        $familles = $this->familleRepository->findByConcoursActif();
+        $lists=[]; $i=0; $totalVote=1;
+        foreach ($familles as $famille){
+            $lists[$famille->getId()]=count($famille->getVotes());
+            $totalVote = count($famille->getConcours()->getVotes());
+        }
+        arsort($lists); //dd($lists[0]);
+        $rang=[]; $j=0;
+        foreach ($lists as $key => $value){
+            $couple = $this->familleRepository->findOneBy(['id'=> (int)$key]);
+            $vote = count($couple->getVotes());
+            $rang[$j++]=[
+                'id' => $couple->getId(),
+                'nom' => $couple->getNom(),
+                'media' => $couple->getMedia(),
+                'vote' => $vote,
+                'pourcentage' => round($vote * $totalVote / 100, 2),
+            ];
+
+        }
+
+        return $rang;
     }
 }

@@ -142,12 +142,18 @@ main{
             }
 
             h4{
-                font-size: 1.3rem;
+                font-size: 1.1rem;
             }
 
             .vote{
                 span{
                     font-weight: bold;
+
+                    &.point{
+                        padding-left: 10px;
+                        padding-right: 25px;
+                        color: red;
+                    }
 
                     &.pourcentage{
                         color: var(--couleur-principale);

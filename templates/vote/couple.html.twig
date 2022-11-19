@@ -32,7 +32,7 @@
                         <h3>{{ famille.nom }}</h3>
                         <h5>Candidate N°: <span>{{ famille.code }}</span></h5>
                         <small class="text-muted"><i class="fa-solid fa-location-dot"></i> {{ famille.commune.nom }}</small>
-                        <p class="position">Position dans le classement: <span>3</span></p>
+                        <p class="position">Nombre de voix: <span>{{ famille.votes|length    }}</span></p>
                         <form class="mt-5" method="post">
                             <div class="d-grid gap-2">
                                 <input type="hidden" name="_couple" value="{{ famille.slug }}">
@@ -52,58 +52,27 @@
             <div class="col-12 col-md-4 classement">
                 <div class="row">
                     <div class="col-12"><h2>Classement</h2></div>
-                    <div class="col-12 famille">
-                        <div class="row">
-                            <div class="col-4">
-                                <figure>
-                                    <img src="https://picsum.photos/id/98/400/300" alt="" class="img-fluid">
-                                </figure>
-                            </div>
-                            <div class="col-8">
-                                <h4>Famille G</h4>
-                                <div class="vote">Voix: <span>25642</span> (<span class="pourcentage">40%</span>) </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 famille">
-                        <div class="row">
-                            <div class="col-4">
-                                <figure>
-                                    <img src="https://picsum.photos/id/98/400/300" alt="" class="img-fluid">
-                                </figure>
-                            </div>
-                            <div class="col-8">
-                                <h4>Famille G</h4>
-                                <div class="vote">Voix: <span>25642</span> (<span class="pourcentage">40%</span>) </div>
+                    {% for rang in rangs %}
+                        <div class="col-12 famille">
+                            <div class="row">
+                                <div class="col-3">
+                                    <figure>
+                                        {% if rang.media %}
+                                            <img src="{{ absolute_url(asset('upload/famille/' ~ rang.media)) }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="{{ absolute_url(asset('assets/img/image.jpg')) }}" alt="" class="img-fluid">
+                                        {% endif %}
+                                    </figure>
+                                </div>
+                                <div class="col-9">
+                                    <h4>{{ rang.nom }}</h4>
+                                    <div class="vote">Voix: <span class="point">{{ rang.vote }}</span> (<span class="pourcentage">{{ rang.pourcentage }}%</span>) </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 famille">
-                        <div class="row">
-                            <div class="col-4">
-                                <figure>
-                                    <img src="https://picsum.photos/id/98/400/300" alt="" class="img-fluid">
-                                </figure>
-                            </div>
-                            <div class="col-8">
-                                <h4>Famille G</h4>
-                                <div class="vote">Voix: <span>25642</span> (<span class="pourcentage">40%</span>) </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 famille">
-                        <div class="row">
-                            <div class="col-4">
-                                <figure>
-                                    <img src="https://picsum.photos/id/98/400/300" alt="" class="img-fluid">
-                                </figure>
-                            </div>
-                            <div class="col-8">
-                                <h4>Famille G</h4>
-                                <div class="vote">Voix: <span>25642</span> (<span class="pourcentage">40%</span>) </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+
+
                 </div>
             </div>
         </div>

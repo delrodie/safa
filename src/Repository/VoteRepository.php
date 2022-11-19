@@ -39,6 +39,26 @@ class VoteRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Liste des votes concernés par la famille et le concours
+     * 
+     * @param $famille
+     * @param $concours
+     * @return float|int|mixed|string
+     */
+    public function findByFamilleAndConcours($famille,$concours): mixed
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.famille = :famille')
+            ->andWhere('v.concours = :concours')
+            ->setParameters([
+                'famille' => $famille,
+                'concours' => $concours
+            ])
+            ->getQuery()->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Vote[] Returns an array of Vote objects
 //     */
