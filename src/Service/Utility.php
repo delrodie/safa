@@ -155,7 +155,7 @@ class Utility
                 'nom' => $couple->getNom(),
                 'media' => $couple->getMedia(),
                 'vote' => $vote,
-                'pourcentage' => round($vote * $totalVote / 100, 2),
+                'pourcentage' => round($vote * 100 / $totalVote, 2),
                 'commune' => $couple->getCommune()->getNom()
             ];
 
