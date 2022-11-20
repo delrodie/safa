@@ -1,42 +1,71 @@
-{% extends 'base.html.twig' %}
+{% extends 'backend_layout.html.twig' %}
 
-{% block title %}Concours{% endblock %}
+{% block title %}{{ parent() }} Gestion des concours{% endblock %}
 
 {% block body %}
-    <h1>Concours</h1>
+    <main id="formulaire">
+        <div class="container">
+            <h5 class="titre">Gestion des concours</h5>
+            <div class="row mt-5">
+                <div class="col-md-8">
+                    <div class="shadow-sm p-3 mb-5 bg-body rounded">
+                        <h3>Liste des concours</h3>
+                        {% for label, messages in app.flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ label }}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ concour.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ concour.nom }}</td>
-            </tr>
-            <tr>
-                <th>Code</th>
-                <td>{{ concour.code }}</td>
-            </tr>
-            <tr>
-                <th>Debut</th>
-                <td>{{ concour.debut ? concour.debut|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Fin</th>
-                <td>{{ concour.fin ? concour.fin|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ concour.slug }}</td>
-            </tr>
-        </tbody>
-    </table>
+                        <table id="listeFamille" class="display">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Famille</th>
+                                <th>Telephone</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for vote in concour.votes %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ vote.famille.nom }}</td>
+                                    <td>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#famille{{ vote.id }}">{{ vote.telephone }}</a>
+                                        <div class="modal fade" id="famille{{ vote.id }}">
+                                            {{ render(url('app_backend_vote',{'id': vote.id})) }}
+                                        </div>
+                                    </td>
+                                    <td>{{ vote.createdAt|date('Y-m-d H:i:s') }}</td>
+                                </tr>
+                            {% endfor %}
 
-    <a href="{{ path('app_backend_concours_index') }}">back to list</a>
-
-    <a href="{{ path('app_backend_concours_edit', {'id': concour.id}) }}">edit</a>
-
-    {{ include('backend_concours/_delete_form.html.twig') }}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            // you may need to change this code if you are not using Bootstrap Datepicker
+            $('.js-datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                language: "fr",
+                todayHighlight: true,
+            });
+        });
+    </script>
 {% endblock %}

@@ -64,9 +64,10 @@ class BackendConcoursController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_backend_concours_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'app_backend_concours_show', methods: ['GET'])]
     public function show(Concours $concour): Response
     {
+        //dd(count($concour->getVotes()));
         return $this->render('backend_concours/show.html.twig', [
             'concour' => $concour,
         ]);

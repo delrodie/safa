@@ -25,6 +25,7 @@
                                 <th>Code</th>
                                 <th>Date debut</th>
                                 <th>Date Fin</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -36,6 +37,9 @@
                                     <td>{{ concour.code }}</td>
                                     <td>{{ concour.debut|date('Y-m-d') }}</td>
                                     <td>{{ concour.fin|date('Y-m-d') }}</td>
+                                    <td>
+                                        <a href="{{ path('app_backend_concours_show', {'slug': concour.slug}) }}"><i class="fa fa-eye"></i></a>
+                                    </td>
                                 </tr>
                             {% endfor %}
 
