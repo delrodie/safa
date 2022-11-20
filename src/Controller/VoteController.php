@@ -39,6 +39,7 @@ class VoteController extends AbstractController
                 $session->set('telephone', $telephone);
 
             return $this->redirectToRoute('app_vote_show', ['slug' => $famille->getSlug()], Response::HTTP_SEE_OTHER);
+
         }
 
         return $this->render('vote/index.html.twig', [
@@ -72,6 +73,8 @@ class VoteController extends AbstractController
             $affichageBtn = false;
 
             $session->clear();
+
+            return $this->redirect('https://www.facebook.com/safa.edition3');
         }
 
         return $this->render('vote/couple.html.twig',[

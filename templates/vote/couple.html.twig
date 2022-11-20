@@ -33,6 +33,10 @@
                         <h5>Candidate N°: <span>{{ famille.code }}</span></h5>
                         <small class="text-muted"><i class="fa-solid fa-location-dot"></i> {{ famille.commune.nom }}</small>
                         <p class="position">Nombre de voix: <span>{{ famille.votes|length    }}</span></p>
+                        <div class="alert alert-warning alert-dismissible fade show mb-5" role="alert">
+                            <strong>Attention!</strong> Il faudrait <strong>LIKER la page facebook</strong>, après votre vote pour qu'il soit pris en compte.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                         <form class="mt-5" method="post">
                             <div class="d-grid gap-2">
                                 <input type="hidden" name="_couple" value="{{ famille.slug }}">
