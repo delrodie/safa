@@ -1,15 +1,15 @@
 {% extends 'backend_layout.html.twig' %}
 
-{% block title %}{{ parent() }} Gestion des concours{% endblock %}
+{% block title %}{{ parent() }} Gestion des votants{% endblock %}
 
 {% block body %}
     <main id="formulaire">
         <div class="container">
-            <h5 class="titre">Gestion des concours</h5>
+            <h5 class="titre">Gestion des votants</h5>
             <div class="row mt-5">
                 <div class="col-md-8">
                     <div class="shadow-sm p-3 mb-5 bg-body rounded">
-                        <h3>Liste des concours</h3>
+                        <h3 class="mb-5">Liste des votans</h3>
                         {% for label, messages in app.flashes %}
                             {% for message in messages %}
                                 <div class="alert alert-{{ label }}" role="alert">
@@ -18,7 +18,7 @@
                             {% endfor %}
                         {% endfor %}
 
-                        <table id="listeVote" class="display">
+                        <table id="listeVote" class="display mt-5">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -64,6 +64,10 @@
                     { data: 'famille' },
                     { data: 'telephone' },
                     { data: 'date' },
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
                 ],
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/fr-FR.json'
