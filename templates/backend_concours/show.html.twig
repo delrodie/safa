@@ -18,31 +18,15 @@
                             {% endfor %}
                         {% endfor %}
 
-                        <table id="listeFamille" class="display">
+                        <table id="listeVote" class="display">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Famille</th>
-                                <th>Telephone</th>
-                                <th>Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for vote in concour.votes %}
                                 <tr>
-                                    <td>{{ loop.index }}</td>
-                                    <td>{{ vote.famille.nom }}</td>
-                                    <td>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#famille{{ vote.id }}">{{ vote.telephone }}</a>
-                                        <div class="modal fade" id="famille{{ vote.id }}">
-                                            {{ render(url('app_backend_vote',{'id': vote.id})) }}
-                                        </div>
-                                    </td>
-                                    <td>{{ vote.createdAt|date('Y-m-d H:i:s') }}</td>
+                                    <th>#</th>
+                                    <th>Famille</th>
+                                    <th>Telephone</th>
+                                    <th>Date</th>
                                 </tr>
-                            {% endfor %}
-
-                            </tbody>
+                            </thead>
                         </table>
                     </div>
                 </div>
@@ -65,6 +49,25 @@
                 autoclose: true,
                 language: "fr",
                 todayHighlight: true,
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#listeVote').DataTable({
+                "ajax": {
+                    url: '{{ absolute_url(path('app_ajax_vote',{'slug': concour.slug})) }}',
+                    dataSrc: '',
+                },
+                columns: [
+                    { data: 'loop_index' },
+                    { data: 'famille' },
+                    { data: 'telephone' },
+                    { data: 'date' },
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/fr-FR.json'
+                }
             });
         });
     </script>

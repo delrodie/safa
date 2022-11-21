@@ -6,6 +6,7 @@ use App\Entity\Vote;
 use App\Repository\ConcoursRepository;
 use App\Repository\FamilleRepository;
 use App\Repository\VoteRepository;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Utility
@@ -13,12 +14,14 @@ class Utility
     private ConcoursRepository $concoursRepository;
     private FamilleRepository $familleRepository;
     private VoteRepository $voteRepository;
+    private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(ConcoursRepository $concoursRepository, FamilleRepository $familleRepository, VoteRepository $voteRepository)
+    public function __construct(ConcoursRepository $concoursRepository, FamilleRepository $familleRepository, VoteRepository $voteRepository, UrlGeneratorInterface $urlGenerator)
     {
         $this->concoursRepository = $concoursRepository;
         $this->familleRepository = $familleRepository;
         $this->voteRepository = $voteRepository;
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -163,5 +166,28 @@ class Utility
         }
 
         return $rang;
+    }
+
+    /**
+     * Liste des votes concernants un conours
+     *
+     * @param $concours
+     * @return array
+     */
+    public function listVoteParConours($concours): array
+    {
+        $votes=[]; $i=0;
+        foreach ($concours->getVotes() as $vote){
+            $votes[$i++]=[
+                'loop_index' => $i,
+                'famille' => $vote->getFamille()->getNom(),
+                'telephone' => "<a href=".$this->urlGenerator->generate('app_backend_vote_delete',['id' => $vote->getId()]).">".$vote->getTelephone()."</a>",
+                'date' => $vote->getCreatedAt()->format("Y-m-d H:i:s"),
+                'concours' => $vote->getConcours()->getNom(),
+                'id' => $vote->getId(),
+            ];
+        }
+
+        return $votes;
     }
 }

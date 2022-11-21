@@ -8,10 +8,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 #[Route('/backend/vote')]
 class BackendVoteController extends AbstractController
 {
+    #[Route('/', name: 'app_backend_ajax')]
+    public function ajax(Request $request)
+    {
+        //Initialisation
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+
+    }
+
     #[Route('/{id}', name: 'app_backend_vote', methods: ['GET'])]
     public function index(Vote $vote): Response
     {
