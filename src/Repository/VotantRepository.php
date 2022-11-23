@@ -39,6 +39,16 @@ class VotantRepository extends ServiceEntityRepository
         }
     }
 
+    public function findList()
+    {
+        return $this->createQueryBuilder('v')
+            ->addSelect('f')
+            ->leftJoin('v.famille', 'f')
+            ->orderBy('v.id', 'DESC')
+            ->getQuery()->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Votant[] Returns an array of Votant objects
 //     */

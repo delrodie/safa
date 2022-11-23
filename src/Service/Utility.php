@@ -208,6 +208,7 @@ class Utility
      */
     public function adresseIp($famille): bool
     {
+        //dd($this->requestStack->getMainRequest()->getClientIps());
         $ip = $this->requestStack->getMainRequest()->getClientIp();
 
         // On affecte les nouvelles valeurs
@@ -238,15 +239,21 @@ class Utility
 
     }
 
-    public function addAdresseIp($famille)
+    public function listeVotant()
     {
-        $ip = $this->requestStack->getMainRequest()->getClientIp();
+        $votants = $this->votantRepository->findList();
+        $list=[]; $i=0;
+        foreach ($votants as $votant){
+            $list[$i++] =[
+                'loop_index' => $i,
+                'id' => $votant->getId(),
+                'ip' => '<a href="http://ip-api.com/json/'.$votant->getIp().'?fields=status,message,continent,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,mobile,query" target="_blank">'.$votant->getIp().'</a>',
+                'nombre' => $votant->getNombre(),
+                'date' => $votant->getCreatedAt()->format('Y-m-d H:i:s'),
+                'famille' => $votant->getFamille()->getNom()
+            ];
+        }
 
-        // On affecte les nouvelles valeurs
-        $votant = new Votant();
-        $votant->setIp($ip);
-        $votant->setNombre(1);
-        //$votant->setCreatedAt(date('Y-m-d H:i:s'));
-        $votant->setFamille($famille);
+        return $list;
     }
 }
