@@ -2,10 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Votant;
 use App\Entity\Vote;
 use App\Repository\ConcoursRepository;
 use App\Repository\FamilleRepository;
+use App\Repository\VotantRepository;
 use App\Repository\VoteRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
@@ -15,13 +18,19 @@ class Utility
     private FamilleRepository $familleRepository;
     private VoteRepository $voteRepository;
     private UrlGeneratorInterface $urlGenerator;
+    private RequestStack $requestStack;
+    private VotantRepository $votantRepository;
 
-    public function __construct(ConcoursRepository $concoursRepository, FamilleRepository $familleRepository, VoteRepository $voteRepository, UrlGeneratorInterface $urlGenerator)
+    public function __construct(ConcoursRepository $concoursRepository, FamilleRepository $familleRepository, VoteRepository $voteRepository,
+                                UrlGeneratorInterface $urlGenerator, RequestStack $requestStack, VotantRepository $votantRepository
+    )
     {
         $this->concoursRepository = $concoursRepository;
         $this->familleRepository = $familleRepository;
         $this->voteRepository = $voteRepository;
         $this->urlGenerator = $urlGenerator;
+        $this->requestStack = $requestStack;
+        $this->votantRepository = $votantRepository;
     }
 
     /**
@@ -189,5 +198,55 @@ class Utility
         }
 
         return $votes;
+    }
+
+    /**
+     * Gestion de la fréquence de vote
+     *
+     * @param $famille
+     * @return bool
+     */
+    public function adresseIp($famille): bool
+    {
+        $ip = $this->requestStack->getMainRequest()->getClientIp();
+
+        // On affecte les nouvelles valeurs
+        $votant = new Votant();
+        $votant->setIp($ip);
+        $votant->setNombre(1);
+        //$votant->setCreatedAt(date('Y-m-d H:i:s'));
+        $votant->setFamille($famille);
+
+        // Si le dernier vote des 3 est moins de 90min alors echec
+        $adresse = $this->votantRepository->findOneBy(['ip' => $ip, 'famille' => $famille->getId()], ['id' => 'DESC']);
+        if ($adresse){
+            $temps_attente = strtotime('90 minutes ago');
+            $dernier_vote = strtotime($adresse->getCreatedAt()->format('Y-m-d H:i:s'));
+            //$difference = $temps_attente - $dernier_vote; dd($difference);
+
+            if ($adresse->getNombre() > 5 and $dernier_vote > $temps_attente)
+                return false;
+            else
+                if ($adresse->getNombre() < 6) $votant->setNombre($adresse->getNombre()+1);
+                //$votant->setNombre();
+        }
+
+        // On instancie le nouveau votant
+        $this->votantRepository->save($votant, true);
+
+        return true;
+
+    }
+
+    public function addAdresseIp($famille)
+    {
+        $ip = $this->requestStack->getMainRequest()->getClientIp();
+
+        // On affecte les nouvelles valeurs
+        $votant = new Votant();
+        $votant->setIp($ip);
+        $votant->setNombre(1);
+        //$votant->setCreatedAt(date('Y-m-d H:i:s'));
+        $votant->setFamille($famille);
     }
 }

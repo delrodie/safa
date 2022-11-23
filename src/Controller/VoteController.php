@@ -28,6 +28,7 @@ class VoteController extends AbstractController
     #[Route('/', name: 'app_vote', methods: ['GET','POST'])]
     public function index(Request $request): Response
     {
+
         $session = $request->getSession();
         if (!$session->get('famille'))
             return $this->redirectToRoute('app_home');
@@ -50,6 +51,7 @@ class VoteController extends AbstractController
     #[Route('/{slug}', name:'app_vote_show', methods:['GET','POST'])]
     public function vote(Request $request, Famille $famille): Response
     {
+
         $session = $request->getSession();
         // Affectation de la famille à la session
         $session->set('famille', $famille->getSlug());
@@ -66,6 +68,15 @@ class VoteController extends AbstractController
 
         // Traitement du formulaire
         if ($request->request->get('_couple') and $request->request->get('_csrf_token')){
+
+            // Gestion de la fréquence de vote par adresse IP
+            if (!$this->utility->adresseIp($famille)){
+                $this->addFlash('danger', "Désolé vous avez déjà voté à ce concours. Merci de reprendre dans 2H du temps!");
+                $affichageBtn = false;
+
+                return $this->redirectToRoute('app_vote_show', ['slug' => $famille->getSlug()], Response::HTTP_SEE_OTHER);
+            }
+
             $vote = $this->utility->vote($famille, $session->get('telephone'));
             if ($vote) $this->addFlash('success', "Votre vote a été effectué avec succès!");
             else $this->addFlash('danger', 'Désolé vous avez déjà voté');
