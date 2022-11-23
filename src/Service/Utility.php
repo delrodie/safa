@@ -221,14 +221,14 @@ class Utility
         // Si le dernier vote des 3 est moins de 90min alors echec
         $adresse = $this->votantRepository->findOneBy(['ip' => $ip, 'famille' => $famille->getId()], ['id' => 'DESC']);
         if ($adresse){
-            $temps_attente = strtotime('90 minutes ago');
+            $temps_attente = strtotime('120 minutes ago');
             $dernier_vote = strtotime($adresse->getCreatedAt()->format('Y-m-d H:i:s'));
             //$difference = $temps_attente - $dernier_vote; dd($difference);
 
-            if ($adresse->getNombre() > 5 and $dernier_vote > $temps_attente)
+            if ($adresse->getNombre() > 9 and $dernier_vote > $temps_attente)
                 return false;
             else
-                if ($adresse->getNombre() < 6) $votant->setNombre($adresse->getNombre()+1);
+                if ($adresse->getNombre() < 10) $votant->setNombre($adresse->getNombre()+1);
                 //$votant->setNombre();
         }
 
@@ -239,7 +239,7 @@ class Utility
 
     }
 
-    public function listeVotant()
+    public function listeVotant(): array
     {
         $votants = $this->votantRepository->findList();
         $list=[]; $i=0;
