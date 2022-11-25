@@ -290,7 +290,7 @@ class Utility
                 $this->voteRepository->remove($vote, true);
             }
 
-            if ($i=199){
+            if ($i===199){
                 $anomalie->setTelephone('pont_dev');
                 $anomalie->setPosition($vote->getId());
                 $this->anomalieRepository->save($anomalie, true);
