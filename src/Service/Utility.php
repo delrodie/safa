@@ -290,13 +290,15 @@ class Utility
                 $this->voteRepository->remove($vote, true);
             }
 
-            if ($i===199){
+            if ($i===1000){
                 $anomalie->setConcours($vote->getConcours());
                 $anomalie->setFamille($vote->getFamille());
                 $anomalie->setTelephone(0000000000);
                 $anomalie->setPosition($vote->getId());
                 $anomalie->setCreatedAt($vote->getCreatedAt());
                 $this->anomalieRepository->save($anomalie, true);
+
+                break;
             }
 
         }
