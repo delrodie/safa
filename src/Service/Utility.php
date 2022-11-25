@@ -273,8 +273,8 @@ class Utility
 
         //if (!$votes) return false;
 
-        foreach ($votes as $vote){
-            if (!is_numeric($vote->getTelephone())){ dd($vote);
+        foreach ($votes as $vote){dd($vote);
+            if (!is_numeric($vote->getTelephone())){
                 // enregistrer le vote contenant anomalie dans la table anomalie
                 $anomalie = new Anomalie();
                 $anomalie->setTelephone($vote->getTelephone());
