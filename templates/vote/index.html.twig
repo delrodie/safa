@@ -15,8 +15,8 @@
                     <h1 class="text-center">Inscription</h1>
                     <div class="mb-3">
                         <label for="inputTelephone" class="form-label">Téléphone</label>
-                        <input type="tel" name="_telephone" class="form-control" id="inputTelephone" placeholder="Votre numero de telephone" required minlength="10" maxlength="10">
-                        <!--<input type="tel" name="_telephone" class="form-control" id="inputTelephone" placeholder="Votre numero de telephone" required minlength="10" maxlength="10" pattern="[0-9]{10}">-->
+                        <!--<input type="tel" name="_telephone" class="form-control" id="inputTelephone" placeholder="Votre numero de telephone" required minlength="10" maxlength="10">-->
+                        <input type="tel" name="_telephone" class="form-control" id="inputTelephone" placeholder="Votre numero de telephone" required minlength="10" maxlength="10" pattern="[0-9]{10}">
                     </div>
                     <div class="d-grid gap-2">
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
