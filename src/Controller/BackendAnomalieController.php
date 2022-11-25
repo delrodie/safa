@@ -25,7 +25,7 @@ class BackendAnomalieController extends AbstractController
         while ($action){
             $i++;
             $this->utility->addAnomalie();
-            if ($i = 5) $action = false;
+            if ($i === 5) $action = false;
         }
 
         return $this->render('backend/anomalie.html.twig');
