@@ -63,12 +63,12 @@ class VoteRepository extends ServiceEntityRepository
      * @param $id
      * @return float|int|mixed|string
      */
-    public function findAnomalie($id, $nombre): mixed
+    public function findAnomalie($id): mixed
     {
         return $this->createQueryBuilder('v')
             ->where('v.id > :id')
             ->setParameter('id', $id)
-            ->setMaxResults($nombre)
+            //->setMaxResults($nombre)
             ->getQuery()->getResult()
             ;
     }
