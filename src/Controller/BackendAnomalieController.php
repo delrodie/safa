@@ -21,7 +21,13 @@ class BackendAnomalieController extends AbstractController
     #[Route('/', name: 'app_backend_anomalie')]
     public function index():Response
     {
-        $this->utility->addAnomalie();
+        $action = true; $i=0;
+        while ($action){
+            $i++;
+            $this->utility->addAnomalie();
+            if ($i = 5) $action = false;
+        }
+
         return $this->render('backend/anomalie.html.twig');
     }
 }

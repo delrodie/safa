@@ -269,7 +269,7 @@ class Utility
         else $id = 0;
 
         // extraire la liste des votes à partir de la dernière anomalie
-        $votes = $this->voteRepository->findAnomalie($id, 1000); dd($votes);
+        $votes = $this->voteRepository->findAnomalie($id, 200); //dd($votes);
 
         if (!$votes) return false;
 
