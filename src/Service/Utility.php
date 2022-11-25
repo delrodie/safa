@@ -298,7 +298,7 @@ class Utility
                 $anomalie->setCreatedAt($vote->getCreatedAt());
                 $this->anomalieRepository->save($anomalie, true);
 
-                break;
+                //break;
             }
 
         }
