@@ -271,13 +271,14 @@ class Utility
         // extraire la liste des votes à partir de la dernière anomalie
         $votes = $this->voteRepository->findAnomalie($id, 200); //dd($votes);
 
-        //if (!$votes) return false;
+        if (!$votes) return false;
 
         $list=[];$i=0;
         foreach ($votes as $vote){ //dd(!is_numeric($vote->getTelephone()));
+            $i++;
+            $anomalie = new Anomalie();
             if (!is_numeric($vote->getTelephone())){
                 // enregistrer le vote contenant anomalie dans la table anomalie
-                $anomalie = new Anomalie();
                 $anomalie->setTelephone($vote->getTelephone());
                 $anomalie->setCreatedAt($vote->getCreatedAt());
                 $anomalie->setConcours($vote->getConcours());
@@ -287,12 +288,16 @@ class Utility
 
                 // Supprimer la ligne du vote contenant l'anomalie
                 $this->voteRepository->remove($vote, true);
-            }else{
-                $list[$i++]=['telephone'=>$vote->getTelephone()];
+            }
+
+            if ($i=199){
+                $anomalie->setTelephone('pont_dev');
+                $anomalie->setPosition($vote->getId());
+                $this->anomalieRepository->save($anomalie, true);
             }
 
         }
-        dd($list);
+        //dd($list);
         return true;
     }
 
