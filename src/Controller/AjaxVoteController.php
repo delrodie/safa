@@ -23,6 +23,12 @@ class AjaxVoteController extends AbstractController
         $this->utility = $utility;
     }
 
+    #[Route('/', name: 'app_ajax_anomalie')]
+    public function anomalie(): JsonResponse
+    {
+        return $this->json($this->utility->listAnomalie());
+    }
+
     #[Route('/{slug}', name: 'app_ajax_vote', methods: ['GET'])]
     public function index(Request $request, Concours $concours): JsonResponse
     {

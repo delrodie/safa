@@ -59,6 +59,20 @@ class VoteRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @param $id
+     * @return float|int|mixed|string
+     */
+    public function findAnomalie($id, $nombre): mixed
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.id > :id')
+            ->setParameter('id', $id)
+            ->setMaxResults($nombre)
+            ->getQuery()->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Vote[] Returns an array of Vote objects
 //     */

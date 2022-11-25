@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\Anomalie;
 use App\Entity\Votant;
 use App\Entity\Vote;
+use App\Repository\AnomalieRepository;
 use App\Repository\ConcoursRepository;
 use App\Repository\FamilleRepository;
 use App\Repository\VotantRepository;
@@ -20,9 +22,10 @@ class Utility
     private UrlGeneratorInterface $urlGenerator;
     private RequestStack $requestStack;
     private VotantRepository $votantRepository;
+    private AnomalieRepository $anomalieRepository;
 
     public function __construct(ConcoursRepository $concoursRepository, FamilleRepository $familleRepository, VoteRepository $voteRepository,
-                                UrlGeneratorInterface $urlGenerator, RequestStack $requestStack, VotantRepository $votantRepository
+                                UrlGeneratorInterface $urlGenerator, RequestStack $requestStack, VotantRepository $votantRepository, AnomalieRepository $anomalieRepository,
     )
     {
         $this->concoursRepository = $concoursRepository;
@@ -31,6 +34,7 @@ class Utility
         $this->urlGenerator = $urlGenerator;
         $this->requestStack = $requestStack;
         $this->votantRepository = $votantRepository;
+        $this->anomalieRepository = $anomalieRepository;
     }
 
     /**
@@ -254,6 +258,62 @@ class Utility
             ];
         }
 
+        return $list;
+    }
+
+    public function addAnomalie()
+    {
+        // Rechercher dans la base de données la dernière anomalie
+        $last_anomalie = $this->anomalieRepository->findOneBy([],['id'=>"DESC"]);
+        if ($last_anomalie) $id = $last_anomalie->getId();
+        else $id = 0;
+
+        // extraire la liste des votes à partir de la dernière anomalie
+        $votes = $this->voteRepository->findAnomalie($id, 1000); //dd($votes);
+
+        if (!$votes) return false;
+
+        foreach ($votes as $vote){
+            if (!is_numeric($vote->getTelephone())){ //dd($vote);
+                // enregistrer le vote contenant anomalie dans la table anomalie
+                $anomalie = new Anomalie();
+                $anomalie->setTelephone($vote->getTelephone());
+                $anomalie->setCreatedAt($vote->getCreatedAt());
+                $anomalie->setConcours($vote->getConcours());
+                $anomalie->setFamille($vote->getFamille());
+                $anomalie->setPosition($vote->getId());
+                $this->anomalieRepository->save($anomalie, true);
+
+                // Supprimer la ligne du vote contenant l'anomalie
+                $this->voteRepository->remove($vote, true);
+            }
+
+        }
+
+        return true;
+    }
+
+    /**
+     * Liste des anomalies
+     *
+     * @return array
+     */
+    public function listAnomalie(): array
+    {
+        $anomalies = $this->anomalieRepository->findAll();
+        $list=[]; $i=0;
+        foreach ($anomalies as $anomalie){
+            $list[$i++]=[
+                'loop_index' => $i,
+                'famille' => $anomalie->getFamille()->getNom(),
+                'telephone' => $anomalie->getTelephone(),
+                'date' => $anomalie->getCreatedAt()->format("Y-m-d H:i:s"),
+                'concours' => $anomalie->getConcours()->getNom(),
+                'id' => $anomalie->getId(),
+            ];
+        }
+
+        //$this->requestStack->getParentRequest()->fla
         return $list;
     }
 }
