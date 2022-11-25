@@ -261,7 +261,7 @@ class Utility
         return $list;
     }
 
-    public function addAnomalie()
+    public function addAnomalie(): bool
     {
         // Rechercher dans la base de données la dernière anomalie
         $last_anomalie = $this->anomalieRepository->findOneBy([],['id'=>"DESC"]);
@@ -274,7 +274,7 @@ class Utility
         if (!$votes) return false;
 
         foreach ($votes as $vote){
-            if (!is_numeric($vote->getTelephone())){ //dd($vote);
+            if (!is_numeric($vote->getTelephone())){ dd($vote);
                 // enregistrer le vote contenant anomalie dans la table anomalie
                 $anomalie = new Anomalie();
                 $anomalie->setTelephone($vote->getTelephone());
