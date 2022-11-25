@@ -269,12 +269,12 @@ class Utility
         else $id = 0;
 
         // extraire la liste des votes à partir de la dernière anomalie
-        $votes = $this->voteRepository->findAnomalie($id, 1000); //dd($votes);
+        $votes = $this->voteRepository->findAnomalie($id, 1000); dd($votes);
 
         if (!$votes) return false;
 
         foreach ($votes as $vote){
-            if (!is_numeric($vote->getTelephone())){ dd($vote);
+            if (!is_numeric($vote->getTelephone())){ //dd($vote);
                 // enregistrer le vote contenant anomalie dans la table anomalie
                 $anomalie = new Anomalie();
                 $anomalie->setTelephone($vote->getTelephone());
