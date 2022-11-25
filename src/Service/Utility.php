@@ -273,6 +273,7 @@ class Utility
 
         //if (!$votes) return false;
 
+        $list=[];$i=0;
         foreach ($votes as $vote){ //dd(!is_numeric($vote->getTelephone()));
             if (!is_numeric($vote->getTelephone())){
                 // enregistrer le vote contenant anomalie dans la table anomalie
@@ -287,11 +288,11 @@ class Utility
                 // Supprimer la ligne du vote contenant l'anomalie
                 $this->voteRepository->remove($vote, true);
             }else{
-                dd('saute');
+                $list[$i++]=['telephone'=>$vote->getTelephone()];
             }
 
         }
-
+        dd($list);
         return true;
     }
 
