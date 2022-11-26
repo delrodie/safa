@@ -313,7 +313,7 @@ class Utility
      */
     public function listAnomalie(): array
     {
-        $anomalies = $this->anomalieRepository->findAll();
+        $anomalies = $this->anomalieRepository->findWithout();
         $list=[]; $i=0;
         foreach ($anomalies as $anomalie){
             if ($anomalie->getTelephone() !== 0){
