@@ -39,6 +39,14 @@ class AnomalieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findWithout()
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.telephone <> 0')
+            ->getQuery()->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Anomalie[] Returns an array of Anomalie objects
 //     */

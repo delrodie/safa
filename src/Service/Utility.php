@@ -316,14 +316,17 @@ class Utility
         $anomalies = $this->anomalieRepository->findAll();
         $list=[]; $i=0;
         foreach ($anomalies as $anomalie){
-            $list[$i++]=[
-                'loop_index' => $i,
-                'famille' => $anomalie->getFamille()->getNom(),
-                'telephone' => $anomalie->getTelephone(),
-                'date' => $anomalie->getCreatedAt()->format("Y-m-d H:i:s"),
-                'concours' => $anomalie->getConcours()->getNom(),
-                'id' => $anomalie->getId(),
-            ];
+            if ($anomalie->getTelephone() !== 0){
+                $list[$i++]=[
+                    'loop_index' => $i,
+                    'famille' => $anomalie->getFamille()->getNom(),
+                    'telephone' => $anomalie->getTelephone(),
+                    'date' => $anomalie->getCreatedAt()->format("Y-m-d H:i:s"),
+                    'concours' => $anomalie->getConcours()->getNom(),
+                    'id' => $anomalie->getId(),
+                ];
+            }
+
         }
 
         //$this->requestStack->getParentRequest()->fla
